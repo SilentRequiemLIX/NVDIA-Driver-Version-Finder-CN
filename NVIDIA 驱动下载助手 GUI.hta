@@ -1,0 +1,122 @@
+<html>
+<head>
+    <title>NVIDIA 驱动下载助手 GUI</title>
+    <HTA:APPLICATION
+        ID="NvidiaGUI"
+        APPLICATIONNAME="NVIDIA Driver Helper"
+        BORDER="dialog"
+        BORDERSTYLE="normal"
+        CAPTION="yes"
+        SHOWINTASKBAR="yes"
+        SINGLEINSTANCE="yes"
+        SYSMENU="yes"
+        WINDOWSTATE="normal"
+        SCROLL="no"
+    />
+
+<style>
+body {
+    font-family: Microsoft YaHei;
+    background: #1e1e1e;
+    color: #dcdcdc;
+    padding: 20px;
+}
+input, select, button {
+    font-size: 16px;
+    padding: 6px;
+    margin-top: 10px;
+}
+button {
+    background: #0078d7;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+button:hover {
+    background: #005a9e;
+}
+.box {
+    margin-bottom: 20px;
+}
+</style>
+
+<script language="javascript">
+
+function generate() {
+    var ver = document.getElementById("ver").value;
+    var type = document.getElementById("type").value;
+
+    if (ver == "") {
+        alert("请输入版本号");
+        return;
+    }
+
+    var file = "";
+    if (type == "notebook") {
+        file = ver + "-notebook-win10-win11-64bit-international-dch-whql.exe";
+    } else {
+        file = ver + "-desktop-win10-win11-64bit-international-dch-whql.exe";
+    }
+
+    var directLink = "https://cn.download.nvidia.com/Windows/" + ver + "/" + file;
+
+    // 使用 ActiveX + XMLHTTP 测试直链连通性
+    try {
+        var xhr = new ActiveXObject("MSXML2.XMLHTTP");
+        xhr.open("HEAD", directLink, false);
+        xhr.send();
+        if (xhr.status == 200) {
+            // 构造下载页面链接
+            var downloadPage =
+                "https://www.nvidia.com/content/DriverDownloads/confirmation.php?url=/Windows/"
+                + ver + "/" + file + "&lang=cn&type=GeForce";
+
+            document.getElementById("result").value = downloadPage;
+
+            // 复制到剪贴板
+            var textarea = document.createElement("textarea");
+            textarea.value = downloadPage;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand("copy");
+            document.body.removeChild(textarea);
+
+            alert("直链可访问，下载页面链接已复制到剪贴板！");
+        } else {
+            alert("版本号无效或直链不可访问！");
+        }
+    } catch (e) {
+        alert("检测失败，请确认网络连接或版本号是否正确！");
+    }
+}
+
+</script>
+
+</head>
+
+<body>
+
+<h2>NVIDIA 驱动下载助手（GUI）</h2>
+
+<div class="box">
+    <label>请输入 NVIDIA 驱动版本号：</label><br>
+    <input type="text" id="ver" placeholder="例如：552.44" size="30">
+</div>
+
+<div class="box">
+    <label>请选择设备类型：</label><br>
+    <select id="type">
+        <option value="notebook">笔记本（Notebook）</option>
+        <option value="desktop">台式电脑（Desktop）</option>
+    </select>
+</div>
+
+<button onclick="generate()">测试并生成下载页面链接</button>
+
+<div class="box">
+    <label>生成的下载页面链接：</label><br>
+    <textarea id="result" rows="3" cols="60"></textarea>
+</div>
+
+</body>
+</html>
