@@ -1,6 +1,6 @@
 <html>
 <head>
-    <title>NVIDIA Çý¶¯ÏÂÔØÖúÊÖ GUI</title>
+    <title>NVIDIA é©±åŠ¨ä¸‹è½½åŠ©æ‰‹ GUI</title>
     <HTA:APPLICATION
         ID="NvidiaGUI"
         APPLICATIONNAME="NVIDIA Driver Helper"
@@ -47,7 +47,7 @@ function generate() {
     var type = document.getElementById("type").value;
 
     if (ver == "") {
-        alert("ÇëÊäÈë°æ±¾ºÅ");
+        alert("è¯·è¾“å…¥ç‰ˆæœ¬å·");
         return;
     }
 
@@ -58,36 +58,21 @@ function generate() {
         file = ver + "-desktop-win10-win11-64bit-international-dch-whql.exe";
     }
 
-    var directLink = "https://cn.download.nvidia.com/Windows/" + ver + "/" + file;
+    var downloadPage =
+        "https://www.nvidia.com/content/DriverDownloads/confirmation.php?url=/Windows/"
+        + ver + "/" + file + "&lang=cn&type=GeForce";
 
-    // Ê¹ÓÃ ActiveX + XMLHTTP ²âÊÔÖ±Á´Á¬Í¨ÐÔ
-    try {
-        var xhr = new ActiveXObject("MSXML2.XMLHTTP");
-        xhr.open("HEAD", directLink, false);
-        xhr.send();
-        if (xhr.status == 200) {
-            // ¹¹ÔìÏÂÔØÒ³ÃæÁ´½Ó
-            var downloadPage =
-                "https://www.nvidia.com/content/DriverDownloads/confirmation.php?url=/Windows/"
-                + ver + "/" + file + "&lang=cn&type=GeForce";
+    document.getElementById("result").value = downloadPage;
 
-            document.getElementById("result").value = downloadPage;
+    // å¤åˆ¶åˆ°å‰ªè´´æ¿
+    var textarea = document.createElement("textarea");
+    textarea.value = downloadPage;
+    document.body.appendChild(textarea);
+    textarea.select();
+    document.execCommand("copy");
+    document.body.removeChild(textarea);
 
-            // ¸´ÖÆµ½¼ôÌù°å
-            var textarea = document.createElement("textarea");
-            textarea.value = downloadPage;
-            document.body.appendChild(textarea);
-            textarea.select();
-            document.execCommand("copy");
-            document.body.removeChild(textarea);
-
-            alert("Ö±Á´¿É·ÃÎÊ£¬ÏÂÔØÒ³ÃæÁ´½ÓÒÑ¸´ÖÆµ½¼ôÌù°å£¡");
-        } else {
-            alert("°æ±¾ºÅÎÞÐ§»òÖ±Á´²»¿É·ÃÎÊ£¡");
-        }
-    } catch (e) {
-        alert("¼ì²âÊ§°Ü£¬ÇëÈ·ÈÏÍøÂçÁ¬½Ó»ò°æ±¾ºÅÊÇ·ñÕýÈ·£¡");
-    }
+    alert("ä¸‹è½½é¡µé¢é“¾æŽ¥å·²å¤åˆ¶åˆ°å‰ªè´´æ¿ï¼");
 }
 
 </script>
@@ -96,25 +81,25 @@ function generate() {
 
 <body>
 
-<h2>NVIDIA Çý¶¯ÏÂÔØÖúÊÖ£¨GUI£©</h2>
+<h2>NVIDIA é©±åŠ¨ä¸‹è½½åŠ©æ‰‹ï¼ˆGUIï¼‰</h2>
 
 <div class="box">
-    <label>ÇëÊäÈë NVIDIA Çý¶¯°æ±¾ºÅ£º</label><br>
-    <input type="text" id="ver" placeholder="ÀýÈç£º552.44" size="30">
+    <label>è¯·è¾“å…¥ NVIDIA é©±åŠ¨ç‰ˆæœ¬å·ï¼š</label><br>
+    <input type="text" id="ver" placeholder="ä¾‹å¦‚ï¼š552.44" size="30">
 </div>
 
 <div class="box">
-    <label>ÇëÑ¡ÔñÉè±¸ÀàÐÍ£º</label><br>
+    <label>è¯·é€‰æ‹©è®¾å¤‡ç±»åž‹ï¼š</label><br>
     <select id="type">
-        <option value="notebook">±Ê¼Ç±¾£¨Notebook£©</option>
-        <option value="desktop">Ì¨Ê½µçÄÔ£¨Desktop£©</option>
+        <option value="notebook">ç¬”è®°æœ¬ï¼ˆNotebookï¼‰</option>
+        <option value="desktop">å°å¼ç”µè„‘ï¼ˆDesktopï¼‰</option>
     </select>
 </div>
 
-<button onclick="generate()">²âÊÔ²¢Éú³ÉÏÂÔØÒ³ÃæÁ´½Ó</button>
+<button onclick="generate()">ç”Ÿæˆå¹¶å¤åˆ¶ä¸‹è½½é¡µé¢é“¾æŽ¥</button>
 
 <div class="box">
-    <label>Éú³ÉµÄÏÂÔØÒ³ÃæÁ´½Ó£º</label><br>
+    <label>ç”Ÿæˆçš„ä¸‹è½½é¡µé¢é“¾æŽ¥ï¼š</label><br>
     <textarea id="result" rows="3" cols="60"></textarea>
 </div>
 
